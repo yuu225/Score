@@ -126,7 +126,8 @@ const dialogForm = ref({
   studentId: '',
   name: '',
   class: '',
-  major: ''
+  major: '',
+  createTime: ''
 })
 
 // 验证规则
@@ -209,7 +210,8 @@ const resetDialogForm = () => {
     studentId: '',
     name: '',
     class: '',
-    major: ''
+    major: '',
+    createTime: ''
   }
   if (dialogFormRef.value) {
     dialogFormRef.value.resetFields()

@@ -1,0 +1,17 @@
+:root {
+    /* 默认主题变量 */
+    --sidebar-bg-color: #ffffff;
+    --sidebar-text-color: #333333;
+    --header-bg-color: #ffffff;
+    --header-text-color: #333333;
+    --el-color-primary: #409EFF;
+    --el-color-primary-light-9: #ecf5ff;
+}
+
+/* 确保过渡效果平滑 */
+.sidebar,
+.header,
+.menu-item,
+.logo h2 {
+    transition: all 0.3s ease !important;
+}

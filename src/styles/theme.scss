@@ -1,0 +1,103 @@
+@use "sass:map";
+
+// 主题配色方案
+$themes: (
+    white: (nav-bg: #ffffff,
+        nav-text: #333333),
+    navy: (nav-bg: #f0f2f5,
+        nav-text: #2c3e50),
+    warm: (nav-bg: #faf6f1,
+        nav-text: #5c4f3d),
+    teal: (nav-bg: #f0f5f5,
+        nav-text: #2f4f4f)
+);
+
+// 默认变量
+:root {
+    --sidebar-bg-color: #ffffff;
+    --sidebar-text-color: #333333;
+    --header-bg-color: #ffffff;
+    --header-text-color: #333333;
+}
+
+// 导航栏样式
+.layout {
+    .sidebar {
+        background-color: var(--sidebar-bg-color);
+        color: var(--sidebar-text-color);
+        border-right: 1px solid var(--el-border-color-light);
+        transition: all 0.3s ease;
+
+        .logo {
+            h2 {
+                color: var(--sidebar-text-color);
+                transition: color 0.3s ease;
+            }
+        }
+
+        .menu-item {
+            color: var(--sidebar-text-color);
+            transition: all 0.3s ease;
+
+            &:hover,
+            &.active {
+                background-color: var(--el-color-primary-light-9);
+                color: var(--el-color-primary);
+                border-left: 3px solid var(--el-color-primary);
+            }
+
+            .el-icon {
+                color: inherit;
+            }
+        }
+    }
+
+    .header {
+        background-color: var(--header-bg-color);
+        color: var(--header-text-color);
+        border-bottom: 1px solid var(--el-border-color-light);
+        transition: all 0.3s ease;
+
+        .breadcrumb {
+            color: var(--header-text-color);
+        }
+    }
+}
+
+// 主题切换器样式
+.theme-options {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+
+    .theme-option {
+        cursor: pointer;
+        text-align: center;
+
+        .color-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        &.active .color-preview {
+            border-color: var(--el-color-primary);
+        }
+
+        .color-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .theme-name {
+            font-size: 14px;
+            color: var(--el-text-color-regular);
+        }
+    }
+}

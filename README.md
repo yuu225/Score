@@ -23,8 +23,5 @@
 
 
 
-## 在线预览
-
-访问 [https://yuu225.github.io/Score/](https://yuu225.github.io/Score/) 查看在线演示。
 
 

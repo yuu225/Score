@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { User, Lock } from '@element-plus/icons-vue'
@@ -51,7 +51,7 @@ import { useUserStore } from '../stores/user'
 
 const router = useRouter()
 const loading = ref(false)
-const store = useUserStore() // 直接初始化 store
+const store = useUserStore()
 
 const loginForm = ref({
   username: '',
@@ -59,8 +59,6 @@ const loginForm = ref({
 })
 
 const handleLogin = async () => {
-  console.log('尝试登录:', loginForm.value) // 添加调试信息
-
   if (!loginForm.value.username || !loginForm.value.password) {
     ElMessage.error('请输入用户名和密码')
     return
@@ -68,23 +66,15 @@ const handleLogin = async () => {
 
   loading.value = true
   try {
-    console.log('调用登录方法...') // 添加调试信息
-    const success = await store.login(
-      loginForm.value.username,
-      loginForm.value.password
-    )
-    console.log('登录结果:', success) // 添加调试信息
-
+    const success = await store.login(loginForm.value.username, loginForm.value.password)
     if (success) {
       ElMessage.success('登录成功')
-      console.log('准备跳转到首页...') // 添加调试信息
-      await router.push('/home')
+      router.push('/home')
     } else {
       ElMessage.error('用户名或密码错误')
     }
   } catch (error) {
-    console.error('登录出错:', error) // 添加调试信息
-    ElMessage.error('登录失败，请重试')
+    ElMessage.error('登录失败')
   } finally {
     loading.value = false
   }
@@ -93,11 +83,11 @@ const handleLogin = async () => {
 
 <style scoped>
 .login-container {
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f0f2f5;
+  height: 100vh;
+  background-color: #f5f7fa;
 }
 
 .login-card {
@@ -116,20 +106,12 @@ const handleLogin = async () => {
 
 .login-tips {
   margin-top: 20px;
-  color: #909399;
-  font-size: 13px;
   text-align: center;
+  color: #909399;
+  font-size: 14px;
 }
 
 .login-tips p {
   margin: 5px 0;
-}
-
-:deep(.el-input__wrapper) {
-  background-color: #f5f7fa;
-}
-
-:deep(.el-card__header) {
-  padding: 20px;
 }
 </style>

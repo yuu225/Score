@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-export interface UserInfo {
+interface UserInfo {
   username: string
-  role: string
-  avatar?: string
   realName: string
   email: string
   phone: string
+  role: string
 }
 
 // 模拟用户数据，实际项目中应该从后端API获取

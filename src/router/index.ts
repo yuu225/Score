@@ -1,7 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Layout from "../components/Layout.vue";
-import Home from "../views/Home.vue";
-import GradeEntry from "../views/GradeEntry.vue";
 import { useUserStore } from "../stores/user";
 
 const router = createRouter({
@@ -10,61 +7,50 @@ const router = createRouter({
     {
       path: "/login",
       name: "Login",
-      component: () => import("../views/LoginView.vue")
+      component: () => import("../views/LoginView.vue"),
+      meta: { requiresAuth: false }
     },
     {
       path: "/home",
-      component: Layout,
-      children: [
-        {
-          path: "",
-          name: "Home",
-          component: Home,
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "grade-entry",
-          name: "GradeEntry",
-          component: GradeEntry,
-          meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-          path: "grade-query",
-          name: "GradeQuery",
-          component: () => import("../views/GradeQuery.vue"),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "students",
-          name: "Students",
-          component: () => import("../views/Students.vue"),
-          meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-          path: "courses",
-          name: "Courses",
-          component: () => import("../views/Courses.vue"),
-          meta: { requiresAuth: true, requiresAdmin: true }
-        },
-        {
-          path: "statistics",
-          name: "Statistics",
-          component: () => import("../views/Statistics.vue"),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "profile",
-          name: "Profile",
-          component: () => import("../views/Profile.vue"),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: "settings",
-          name: "Settings",
-          component: () => import("../views/Settings.vue"),
-          meta: { requiresAuth: true }
-        }
-      ]
+      name: "Home",
+      component: () => import("../views/HomeView.vue"),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/students",
+      name: "Students",
+      component: () => import("../views/Students.vue"),
+      meta: { requiresAuth: true, requiresAdmin: true }
+    },
+    {
+      path: "/courses",
+      name: "Courses",
+      component: () => import("../views/Courses.vue"),
+      meta: { requiresAuth: true, requiresAdmin: true }
+    },
+    {
+      path: "/grade-entry",
+      name: "GradeEntry",
+      component: () => import("../views/GradeEntry.vue"),
+      meta: { requiresAuth: true, requiresAdmin: true }
+    },
+    {
+      path: "/grade-query",
+      name: "GradeQuery",
+      component: () => import("../views/GradeQuery.vue"),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/statistics",
+      name: "Statistics",
+      component: () => import("../views/Statistics.vue"),
+      meta: { requiresAuth: true }
+    },
+    {
+      path: "/profile",
+      name: "Profile",
+      component: () => import("../views/Profile.vue"),
+      meta: { requiresAuth: true }
     },
     {
       path: "/",

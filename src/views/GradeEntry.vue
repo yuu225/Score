@@ -8,10 +8,9 @@
         </div>
       </template>
 
-      <!-- 搜索表单 -->
       <el-form :model="queryForm" ref="queryFormRef" inline class="search-form">
         <el-form-item label="学生">
-          <el-select v-model="queryForm.studentId" placeholder="请选择学生" clearable filterable>
+          <el-select v-model="queryForm.studentId" placeholder="请选择学生" clearable>
             <el-option
               v-for="student in students"
               :key="student.id"
@@ -21,7 +20,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程">
-          <el-select v-model="queryForm.courseId" placeholder="请选择课程" clearable filterable>
+          <el-select v-model="queryForm.courseId" placeholder="请选择课程" clearable>
             <el-option
               v-for="course in courses"
               :key="course.id"
@@ -30,10 +29,20 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="成绩范围">
-          <el-input-number v-model="queryForm.minScore" :min="0" :max="100" placeholder="最低分" />
+        <el-form-item label="分数范围">
+          <el-input-number
+            v-model="queryForm.minScore"
+            :min="0"
+            :max="100"
+            placeholder="最低分"
+          />
           <span class="separator">-</span>
-          <el-input-number v-model="queryForm.maxScore" :min="0" :max="100" placeholder="最高分" />
+          <el-input-number
+            v-model="queryForm.maxScore"
+            :min="0"
+            :max="100"
+            placeholder="最高分"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>
@@ -77,7 +86,6 @@
       </div>
     </el-card>
 
-    <!-- 编辑对话框 -->
     <el-dialog
       v-model="dialogVisible"
       :title="dialogType === 'add' ? '添加成绩' : '编辑成绩'"
@@ -91,12 +99,7 @@
         label-width="100px"
       >
         <el-form-item label="学生" prop="studentId">
-          <el-select 
-            v-model="dialogForm.studentId" 
-            placeholder="请选择学生" 
-            filterable
-            :disabled="dialogType === 'edit'"
-          >
+          <el-select v-model="dialogForm.studentId" placeholder="请选择学生">
             <el-option
               v-for="student in students"
               :key="student.id"
@@ -106,12 +109,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程" prop="courseId">
-          <el-select 
-            v-model="dialogForm.courseId" 
-            placeholder="请选择课程" 
-            filterable
-            :disabled="dialogType === 'edit'"
-          >
+          <el-select v-model="dialogForm.courseId" placeholder="请选择课程">
             <el-option
               v-for="course in courses"
               :key="course.id"
@@ -121,12 +119,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="成绩" prop="score">
-          <el-input-number 
-            v-model="dialogForm.score" 
-            :min="0" 
+          <el-input-number
+            v-model="dialogForm.score"
+            :min="0"
             :max="100"
             :precision="1"
             :step="0.5"
+            placeholder="请输入成绩"
           />
         </el-form-item>
       </el-form>
@@ -165,7 +164,6 @@ interface QueryForm {
   maxScore: number | null
 }
 
-// 查询表单
 const queryForm = ref<QueryForm>({
   studentId: '',
   courseId: '',
@@ -173,7 +171,6 @@ const queryForm = ref<QueryForm>({
   maxScore: null
 })
 
-// 对话框表单数据
 const dialogForm = ref({
   id: '',
   studentId: '',
@@ -181,7 +178,6 @@ const dialogForm = ref({
   score: 0
 })
 
-// 验证规则
 const rules = {
   studentId: [{ required: true, message: '请选择学生', trigger: 'change' }],
   courseId: [{ required: true, message: '请选择课程', trigger: 'change' }],
@@ -191,7 +187,6 @@ const rules = {
   ]
 }
 
-// 模拟数据
 const students = computed(() => dataService.students.value)
 const courses = computed(() => dataService.courses.value)
 
@@ -206,7 +201,6 @@ const pageSize = ref(10)
 const queryFormRef = ref<FormInstance>()
 const dialogFormRef = ref<FormInstance>()
 
-// 过滤后的成绩列表
 const filteredGradeList = computed(() => {
   return dataService.grades.value.filter(item => {
     if (queryForm.value.studentId && item.studentId !== queryForm.value.studentId) {
@@ -225,11 +219,9 @@ const filteredGradeList = computed(() => {
   })
 })
 
-// 获取成绩列表
 const fetchGradeList = async () => {
   loading.value = true
   try {
-    // 成绩数据已经在 dataService.initData() 中初始化
     loading.value = false
   } catch (error) {
     ElMessage.error('获取成绩列表失败')
@@ -237,12 +229,10 @@ const fetchGradeList = async () => {
   }
 }
 
-// 查询处理
 const handleQuery = () => {
   currentPage.value = 1
 }
 
-// 重置查询
 const handleReset = () => {
   if (queryFormRef.value) {
     queryFormRef.value.resetFields()
@@ -256,7 +246,6 @@ const handleReset = () => {
   currentPage.value = 1
 }
 
-// 重置对话框表单
 const resetDialogForm = () => {
   dialogForm.value = {
     id: '',
@@ -269,27 +258,23 @@ const resetDialogForm = () => {
   }
 }
 
-// 添加成绩
 const handleAdd = () => {
   dialogType.value = 'add'
   resetDialogForm()
   dialogVisible.value = true
 }
 
-// 编辑成绩
 const handleEdit = (row: Grade) => {
   dialogType.value = 'edit'
   dialogForm.value = { ...row }
   dialogVisible.value = true
 }
 
-// 删除成绩
 const handleDelete = async (row: Grade) => {
   try {
     await ElMessageBox.confirm('确定要删除这条成绩记录吗？', '提示', {
       type: 'warning'
     })
-    // 在实际应用中，这里应该调用后端 API
     const index = gradeList.value.findIndex(item => item.id === row.id)
     if (index !== -1) {
       gradeList.value.splice(index, 1)
@@ -297,11 +282,9 @@ const handleDelete = async (row: Grade) => {
       ElMessage.success('删除成功')
     }
   } catch {
-    // 用户取消删除
   }
 }
 
-// 提交表单
 const handleSubmit = async () => {
   if (!dialogFormRef.value) return
 
@@ -327,7 +310,6 @@ const handleSubmit = async () => {
         }
 
         if (dialogType.value === 'add') {
-          // 检查是否已存在相同学生和课程的成绩
           const exists = dataService.grades.value.some(
             item => item.studentId === newGrade.studentId && item.courseId === newGrade.courseId
           )
@@ -351,7 +333,6 @@ const handleSubmit = async () => {
   })
 }
 
-// 分页处理
 const handleSizeChange = (val: number) => {
   pageSize.value = val
   currentPage.value = 1
@@ -362,7 +343,7 @@ const handleCurrentChange = (val: number) => {
 }
 
 onMounted(() => {
-  dataService.initData() // 初始化学生和课程数据
+  dataService.initData()
   fetchGradeList()
 })
 </script>
@@ -395,12 +376,6 @@ onMounted(() => {
   justify-content: flex-end;
 }
 
-.dialog-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
 .text-danger {
   color: #F56C6C;
 }
@@ -411,5 +386,9 @@ onMounted(() => {
 
 :deep(.el-input-number) {
   width: 120px;
+}
+
+:deep(.el-select) {
+  width: 200px;
 }
 </style> 

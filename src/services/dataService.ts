@@ -2,8 +2,8 @@ import { ref } from 'vue'
 
 export interface Student {
   id: string
-  name: string
   studentId: string
+  name: string
   class: string
   major: string
   createTime: string
@@ -11,8 +11,8 @@ export interface Student {
 
 export interface Course {
   id: string
-  name: string
   courseId: string
+  name: string
   credit: number
   teacher: string
   createTime: string
@@ -60,7 +60,7 @@ const initData = () => {
 
 // 添加学生
 const addStudent = (student: Student) => {
-  students.value.unshift(student)
+  students.value.push(student)
   localStorage.setItem('students', JSON.stringify(students.value))
 }
 
@@ -81,7 +81,7 @@ const deleteStudent = (id: string) => {
 
 // 添加课程
 const addCourse = (course: Course) => {
-  courses.value.unshift(course)
+  courses.value.push(course)
   localStorage.setItem('courses', JSON.stringify(courses.value))
 }
 
@@ -102,7 +102,7 @@ const deleteCourse = (id: string) => {
 
 // 添加成绩
 const addGrade = (grade: Grade) => {
-  grades.value.unshift(grade)
+  grades.value.push(grade)
   localStorage.setItem('grades', JSON.stringify(grades.value))
 }
 
